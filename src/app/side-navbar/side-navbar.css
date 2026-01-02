@@ -1,0 +1,214 @@
+.cont {
+    width: 5vw;
+    min-width: 70px;
+    height: 100vh;
+    background: #0f0f0f;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 20px 0;
+}
+
+.profile-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 0 10px;
+}
+
+.profile-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid rgba(237, 212, 177, 0.3);
+    transition: all 0.3s ease;
+    object-fit: cover;
+}
+
+.profile-avatar:hover {
+    border-color: #EDD4B1;
+    transform: scale(1.05);
+}
+
+.profile-name {
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    margin: 0;
+    word-break: break-word;
+}
+
+.actions-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 0 10px 20px;
+}
+
+.nav-icon {
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 20px;
+    transition: all 0.3s ease;
+    padding: 12px;
+    border-radius: 12px;
+}
+
+.nav-icon:hover {
+    color: #EDD4B1;
+    background: rgba(237, 212, 177, 0.1);
+}
+
+.nav-icon:active {
+    transform: scale(0.95);
+}
+
+/* Logout Modal */
+.logout-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.logout-modal {
+    background: #1a1a1a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.modal-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(237, 212, 177, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #EDD4B1;
+    font-size: 22px;
+}
+
+.modal-title {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.modal-message {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 15px;
+    line-height: 1.6;
+    margin: 0 0 28px 0;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+.modal-btn {
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    letter-spacing: 0.3px;
+}
+
+.modal-btn-cancel {
+    background: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-btn-cancel:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.modal-btn-confirm {
+    background: linear-gradient(135deg, #EDD4B1 0%, #d4b89a 100%);
+    color: #1a1a1a;
+    box-shadow: 0 4px 12px rgba(237, 212, 177, 0.3);
+}
+
+.modal-btn-confirm:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(237, 212, 177, 0.5);
+}
+
+.modal-btn-confirm:active {
+    transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .cont {
+        width: 60px;
+        min-width: 60px;
+    }
+
+    .profile-name {
+        font-size: 10px;
+    }
+
+    .profile-avatar {
+        width: 40px;
+        height: 40px;
+    }
+
+    .nav-icon {
+        font-size: 18px;
+        padding: 10px;
+    }
+}

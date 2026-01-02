@@ -1,0 +1,88 @@
+<div class="cont">
+    <!-- Header with Current User -->
+    <div class="chat-header">
+        <img class="current-user-avatar" src="https://images.pexels.com/photos/2693814/pexels-photo-2693814.jpeg"
+            alt="Your profile" />
+        <div class="current-user-info">
+            <p class="current-user-name">{{user.name}}</p>
+        </div>
+    </div>
+
+    <!-- Search Section -->
+    <div class="search-container">
+        <div class="search-wrapper">
+            <i class="pi pi-search search-icon"></i>
+            <input [(ngModel)]="searchQuery" (ngModelChange)="filterUsers()" class="search-input"
+                placeholder="Search..." autocomplete="off" />
+        </div>
+    </div>
+
+    <!-- Chat List -->
+    <div class="chatList">
+        <!-- Conversations -->
+        @for (conversation of conversations; track conversation.conversationId) {
+        <div class="contact" [class.active]="selectedUserId === conversation.conversationId" (click)="conv(conversation.user)">
+            <div class="avatar-container">
+                <img class="contact-avatar" src="https://images.pexels.com/photos/2693814/pexels-photo-2693814.jpeg"
+                    [alt]="conversation.user.name" />
+                <div class="online-indicator" [ngClass]="($any(onlineUsers))[conversation.user._id] || 'offline'"></div>
+            </div>
+
+            <div class="contact-info">
+                <div class="contact-header">
+                    <p class="contact-name">{{ conversation.user.name }}</p>
+                    <span class="status-badge"
+                        [ngClass]="'status-' + (($any(onlineUsers))[conversation.user._id] || 'offline')">
+                        {{ ($any(onlineUsers))[conversation.user._id] || 'offline' }}
+                    </span>
+                </div>
+                @if(conversation?.lastMessage) {
+                <p [ngClass]="conversation?.lastMessage?.status == 'read' ? 'last-message' : 'last-unrad-message'">
+                    @if(conversation?.lastMessage?.senderId === user._id) {
+                    {{ conversation?.lastMessage?.status || 'No messages yet.' }}
+                    } @else {
+                    {{ conversation?.lastMessage?.status == 'read' ? 'Recieved' : 'New message!' }}
+                    }
+                </p>
+                } 
+                @else {
+                <p class="last-message">No messages yet</p>
+                }
+
+            </div>
+        </div>
+        }
+
+        <!-- Search Results Section -->
+        <ng-container *ngIf="searchResults.length">
+            <hr class="section-divider">
+            <p class="section-label">Search Results</p>
+
+            <div *ngFor="let user of searchResults" class="contact" (click)="conv(user)">
+                <div class="avatar-container">
+                    <img class="contact-avatar" src="https://images.pexels.com/photos/2693814/pexels-photo-2693814.jpeg"
+                        [alt]="user.name" />
+                </div>
+
+                <div class="contact-info">
+                    <div class="contact-header">
+                        <p class="contact-name">{{ user.name }}</p>
+                    </div>
+                    <p class="last-message">Start a conversation</p>
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- Empty State -->
+        <div class="empty-state" *ngIf="!conversations.length && !searchResults.length && !searchQuery">
+            <i class="pi pi-comments empty-state-icon"></i>
+            <p class="empty-state-text">No conversations yet<br>Start chatting with someone!</p>
+        </div>
+
+        <!-- No Search Results -->
+        <div class="empty-state" *ngIf="searchQuery && !conversations.length && !searchResults.length">
+            <i class="pi pi-search empty-state-icon"></i>
+            <p class="empty-state-text">No results found for "{{ searchQuery }}"</p>
+        </div>
+    </div>
+</div>

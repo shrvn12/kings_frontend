@@ -1,0 +1,41 @@
+<div class="cont">
+    <p-toast [breakpoints]="{ '920px': { width: '50%', right: 'auto' } }" />
+    <div class="profile-section">
+        <img class="profile-avatar" src="https://images.pexels.com/photos/2693814/pexels-photo-2693814.jpeg"
+            alt="profile" title="Your Profile" />
+        <!-- <p class="profile-name">{{ user.name }}</p> -->
+    </div>
+
+    <div class="actions-section">
+        <i class="pi pi-cog nav-icon" title="Settings"></i>
+        <i class="pi pi-sign-out nav-icon" title="Logout" (click)="showLogoutModal = true"></i>
+    </div>
+
+    <!-- Logout Confirmation Modal -->
+    @if(showLogoutModal) {
+    <div class="logout-modal-overlay" (click)="showLogoutModal = false">
+        <div class="logout-modal" (click)="$event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <i class="pi pi-sign-out"></i>
+                </div>
+                <h3 class="modal-title">Logout</h3>
+            </div>
+
+            <p class="modal-message">
+                Are you sure you want to logout? You'll need to login again to access your conversations.
+            </p>
+
+            <div class="modal-actions">
+                <button class="modal-btn modal-btn-cancel" (click)="showLogoutModal = false">
+                    Cancel
+                </button>
+                <button class="modal-btn modal-btn-confirm" (click)="logout()">
+                    Logout
+                </button>
+            </div>
+        </div>
+    </div>
+    }
+
+</div>

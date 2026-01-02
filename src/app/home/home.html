@@ -1,0 +1,9 @@
+<div class="cont">
+  <app-side-navbar></app-side-navbar>
+  <app-chat-list></app-chat-list>
+  <main>
+    @if (!loadingChatList) {
+      <router-outlet></router-outlet>
+    }
+  </main>
+</div>

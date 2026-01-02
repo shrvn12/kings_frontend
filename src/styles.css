@@ -1,0 +1,10 @@
+@import "primeicons/primeicons.css";
+body{
+    margin: 0px;
+    overflow: hidden;
+    background-color: black;
+}
+
+*{
+    font-family: sans-serif;
+}

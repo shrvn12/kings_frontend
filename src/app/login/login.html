@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kings - Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <p-toast />
+    
+    <div class="login-container">
+        <div class="text-center logo-container">
+            <h1 class="logo">Kings</h1>
+        </div>
+        <p class="subtitle text-center">Welcome back! Please login to your account</p>
+        
+        <form (submit)="setUser($event)">
+            <div class="form-group">
+                <label for="username" class="form-label">Username</label>
+                <input 
+                    [(ngModel)]="userName" 
+                    name="userName" 
+                    type="text" 
+                    id="username" 
+                    class="input-field" 
+                    placeholder="Enter your username" 
+                    required
+                >
+            </div>
+            
+            <div class="form-group">
+                <label for="password" class="form-label">Password</label>
+                <input 
+                    [(ngModel)]="password" 
+                    name="password" 
+                    type="password" 
+                    id="password" 
+                    class="input-field" 
+                    placeholder="Enter your password" 
+                    required
+                >
+            </div>
+            
+            <button type="submit" class="login-btn">Login</button>
+        </form>
+        
+        <p class="register-text">
+            Don't have an account? 
+            <a routerLink="/signup" class="register-link">Sign up now</a>
+        </p>
+    </div>
+</body>
+</html>

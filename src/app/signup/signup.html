@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kings - Sign Up</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <p-toast [breakpoints]="{ '920px': { width: '50%', right: 'auto' } }" />
+    
+    <div class="signup-container">
+        <!-- Left Side - Brand Section -->
+        <div class="brand-section">
+            <h1 class="brand-logo">Kings</h1>
+            <p class="brand-tagline">Join thousands of users connecting instantly around the world</p>
+            
+            <div class="brand-features">
+                <div class="feature-item">
+                    <div class="feature-icon">💬</div>
+                    <span>Real-time messaging with instant delivery</span>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🔒</div>
+                    <span>Secure and encrypted conversations</span>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🌍</div>
+                    <span>Connect with anyone, anywhere</span>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">✨</div>
+                    <span>Clean and intuitive interface</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side - Form Section -->
+        <div class="form-section">
+            <div class="form-header">
+                <h2 class="form-title">Create Account</h2>
+                <p class="form-subtitle">Fill in your details to get started</p>
+            </div>
+            
+            <form (submit)="createUser($event)">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="fullname" class="form-label">Full Name</label>
+                        <input 
+                            [(ngModel)]="fullName" 
+                            name="fullName" 
+                            type="text" 
+                            id="fullname" 
+                            class="input-field" 
+                            placeholder="John Doe" 
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="username" class="form-label">Username</label>
+                        <input 
+                            [(ngModel)]="userName" 
+                            name="userName" 
+                            type="text" 
+                            id="username" 
+                            class="input-field" 
+                            placeholder="johndoe" 
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input 
+                            [(ngModel)]="email" 
+                            name="email" 
+                            type="email" 
+                            id="email" 
+                            class="input-field" 
+                            placeholder="john@example.com" 
+                            required
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <input 
+                            [(ngModel)]="password" 
+                            name="password" 
+                            type="password" 
+                            id="password" 
+                            class="input-field" 
+                            placeholder="••••••••" 
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <input 
+                            [(ngModel)]="confirmPassword" 
+                            name="confirmPassword" 
+                            type="password" 
+                            id="confirmPassword" 
+                            class="input-field" 
+                            placeholder="••••••••" 
+                            required
+                        >
+                    </div>
+                </div>
+                
+                <button type="submit" class="signup-btn">Create Account</button>
+                
+                <p class="login-text">
+                    Already have an account? 
+                    <a routerLink="/login" class="login-link">Log in</a>
+                </p>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

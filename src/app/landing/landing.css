@@ -1,0 +1,166 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+    color: #ffffff;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    text-align: center;
+    max-width: 600px;
+    padding: 40px;
+    animation: fadeIn 1s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.logo {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #EDD4B1 0%, #d4b89a 100%);
+    border-radius: 20px;
+    margin: 0 auto 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    font-weight: bold;
+    color: #1a1a1a;
+    box-shadow: 0 10px 40px rgba(237, 212, 177, 0.3);
+}
+
+h1 {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, #ffffff 0%, #EDD4B1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.tagline {
+    font-size: 18px;
+    color: #a0a0a0;
+    margin-bottom: 50px;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+}
+
+.button-group {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 16px 48px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    min-width: 160px;
+    letter-spacing: 0.5px;
+}
+
+.btn-primary {
+    background: #EDD4B1;
+    color: #1a1a1a;
+    box-shadow: 0 4px 20px rgba(237, 212, 177, 0.4);
+}
+
+.btn-primary:hover {
+    background: #f0ddc4;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 30px rgba(237, 212, 177, 0.6);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: #EDD4B1;
+    border: 2px solid #EDD4B1;
+}
+
+.btn-secondary:hover {
+    background: rgba(237, 212, 177, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 30px rgba(237, 212, 177, 0.2);
+}
+
+.btn-secondary:active {
+    transform: translateY(0);
+}
+
+.decoration {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(237, 212, 177, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+.decoration-1 {
+    top: -200px;
+    left: -200px;
+}
+
+.decoration-2 {
+    bottom: -200px;
+    right: -200px;
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 36px;
+    }
+
+    .tagline {
+        font-size: 16px;
+        margin-bottom: 40px;
+    }
+
+    .button-group {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}

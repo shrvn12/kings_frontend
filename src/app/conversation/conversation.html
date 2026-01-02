@@ -1,0 +1,77 @@
+<div class="cont">
+    <!-- Header -->
+    <div class="conversation-header">
+        <div class="header-user-info">
+            <img 
+                class="header-avatar" 
+                src="https://images.pexels.com/photos/2693814/pexels-photo-2693814.jpeg" 
+                alt="profile"
+                title="User Profile"
+            />
+            <p class="header-user-name">{{ recipientDetails.name || 'Select a conversation' }}</p>
+        </div>
+        <div class="header-actions">
+            <i class="pi pi-search header-icon" title="Search"></i>
+            <i class="pi pi-ellipsis-v header-icon" title="More options"></i>
+        </div>
+    </div>
+
+    <!-- Chat Messages -->
+    <div #chatContainer class="chat">
+        @if (messages.length === 0) {
+            <div class="empty-conversation">
+                <i class="pi pi-comments empty-icon"></i>
+                <p class="empty-text">No messages yet<br>Start the conversation!</p>
+            </div>
+        }
+
+        @for (message of messages; track message.createdAt; let i = $index) {
+            <!-- Date Separator -->
+            @if (
+                i === 0 ||
+                (messages[i - 1].createdAt | date:'yyyy-MM-dd') !== (message.createdAt | date:'yyyy-MM-dd')
+            ) {
+                <div class="date-separator">
+                    {{ message.createdAt | date:'mediumDate' }}
+                </div>
+            }
+
+            <!-- Message Bubble -->
+            <div
+                class="msg"
+                [ngClass]="message.senderId === user._id ? 'sent' : 'received'"
+            >
+                <span class="text">{{ message.text }}</span>
+
+                <span class="meta">
+                    <span class="timestamp">
+                        {{ message.createdAt | date:'shortTime' }}
+                    </span>
+
+                    @if (message.senderId === user._id) {
+                        <span class="ticks">
+                            {{ message.status || 'sent' }}
+                        </span>
+                    }
+                </span>
+            </div>
+        }
+    </div>
+
+    <!-- Message Input -->
+    <div class="message-input-container">
+        <div class="input-wrapper">
+            <input 
+                [(ngModel)]="message" 
+                (keyup.enter)="sendMessage()"
+                placeholder="Type a message..." 
+                class="message-input"
+                type="text" 
+                pInputText 
+            />
+        </div>
+        <button class="send-button" (click)="sendMessage()" title="Send message">
+            <i class="pi pi-send send-icon"></i>
+        </button>
+    </div>
+</div>
