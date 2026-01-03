@@ -69,18 +69,30 @@ export class ChatList {
           messageFound = true;
         }
       }
+      this.conversations = this.conversations.sort((a, b) => {
+        return (
+          new Date(b.lastMessage.createdAt).getTime() -
+          new Date(a.lastMessage.createdAt).getTime()
+        );
+      });
       if (!messageFound) {
         this.listConv();
       }
     });
 
-    this.eventbus.on('private-message', (message: any) => {
+    this.eventbus.on('privateMessage', (message: any) => {
       console.log('private-message event received in ChatList', message);
       for (let conv of this.conversations) {
         if (conv.conversationId === message.conversationId) {
           conv.lastMessage = message;
         }
       }
+      this.conversations = this.conversations.sort((a, b) => {
+        return (
+          new Date(b.lastMessage.createdAt).getTime() -
+          new Date(a.lastMessage.createdAt).getTime()
+        );
+      });
     });
 
     this.eventbus.on('markRead', (conversationId: string) => {

@@ -37,13 +37,13 @@
                     </span>
                 </div>
                 @if(conversation?.lastMessage) {
-                <p [ngClass]="conversation?.lastMessage?.status == 'read' ? 'last-message' : 'last-unrad-message'">
-                    @if(conversation?.lastMessage?.senderId === user._id) {
-                    {{ conversation?.lastMessage?.status || 'No messages yet.' }}
+                    @if(conversation?.lastMessage?.senderId === user._id){
+                        <p class="last-message">{{ conversation?.lastMessage?.status }}</p>
                     } @else {
-                    {{ conversation?.lastMessage?.status == 'read' ? 'Recieved' : 'New message!' }}
+                        <p [ngClass]="conversation?.lastMessage?.status == 'read' ? 'last-message' : 'last-unrad-message'">
+                            {{ conversation?.lastMessage?.status == 'read' ? 'Recieved' : 'New message!' }}
+                        </p>
                     }
-                </p>
                 } 
                 @else {
                 <p class="last-message">No messages yet</p>
