@@ -18,43 +18,53 @@
 
     <!-- Chat Messages -->
     <div #chatContainer class="chat">
-        @if (messages.length === 0) {
+        <!-- Loading State -->
+        @if (loadingConversation) {
+            <div class="loading-conversation">
+                <div class="loading-spinner"></div>
+                <p class="loading-text">Loading messages...</p>
+            </div>
+        }
+        
+        @else if (messages.length === 0) {
             <div class="empty-conversation">
                 <i class="pi pi-comments empty-icon"></i>
                 <p class="empty-text">No messages yet<br>Start the conversation!</p>
             </div>
         }
 
-        @for (message of messages; track message.createdAt; let i = $index) {
-            <!-- Date Separator -->
-            @if (
-                i === 0 ||
-                (messages[i - 1].createdAt | date:'yyyy-MM-dd') !== (message.createdAt | date:'yyyy-MM-dd')
-            ) {
-                <div class="date-separator">
-                    {{ message.createdAt | date:'mediumDate' }}
+        @else {
+            @for (message of messages; track message.createdAt; let i = $index) {
+                <!-- Date Separator -->
+                @if (
+                    i === 0 ||
+                    (messages[i - 1].createdAt | date:'yyyy-MM-dd') !== (message.createdAt | date:'yyyy-MM-dd')
+                ) {
+                    <div class="date-separator">
+                        {{ message.createdAt | date:'mediumDate' }}
+                    </div>
+                }
+
+                <!-- Message Bubble -->
+                <div
+                    class="msg"
+                    [ngClass]="message.senderId === user._id ? 'sent' : 'received'"
+                >
+                    <span class="text">{{ message.text }}</span>
+
+                    <span class="meta">
+                        <span class="timestamp">
+                            {{ message.createdAt | date:'shortTime' }}
+                        </span>
+
+                        @if (message.senderId === user._id) {
+                            <span class="ticks">
+                                {{ message.status || 'sent' }}
+                            </span>
+                        }
+                    </span>
                 </div>
             }
-
-            <!-- Message Bubble -->
-            <div
-                class="msg"
-                [ngClass]="message.senderId === user._id ? 'sent' : 'received'"
-            >
-                <span class="text">{{ message.text }}</span>
-
-                <span class="meta">
-                    <span class="timestamp">
-                        {{ message.createdAt | date:'shortTime' }}
-                    </span>
-
-                    @if (message.senderId === user._id) {
-                        <span class="ticks">
-                            {{ message.status || 'sent' }}
-                        </span>
-                    }
-                </span>
-            </div>
         }
     </div>
 

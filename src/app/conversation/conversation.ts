@@ -41,6 +41,7 @@ export class Conversation {
   recipientList: user[] = [];
   recipientDetails: user = {};
   messages: message[] = [];
+  loadingConversation: boolean = false;
 
 
   ngAfterViewInit() {
@@ -151,16 +152,19 @@ export class Conversation {
   }
 
   getMessages() {
+    this.loadingConversation = true;
     fetch(`${environment.apiUrl}/message/conversation/${this.route.snapshot.paramMap.get('id')}`, {
       credentials: 'include'
     }).then(async (res) => {
       let response = await res.json();
       this.messages = response;
+      this.loadingConversation = false;
       if (this.messages.length && this.messages[this.messages.length - 1].conversationId == this.route.snapshot.paramMap.get('id')) {
         this.eventbus.emit('markRead', this.route.snapshot.paramMap.get('id')!);
       }
       this.scrollToBottom();
     }).catch((error) => {
+      this.loadingConversation = false;
       console.log('error while fetching messages', error);
     })
   }
