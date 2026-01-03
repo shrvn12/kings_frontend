@@ -110,11 +110,20 @@
                     </div>
                 </div>
                 
-                <button type="submit" class="signup-btn">Create Account</button>
+                <button type="submit" class="signup-btn" [disabled]="signingUp">
+                    <span class="btn-content">
+                        @if (signingUp) {
+                            <span class="btn-spinner"></span>
+                            <span>Creating Account...</span>
+                        } @else {
+                            <span>Create Account</span>
+                        }
+                    </span>
+                </button>
                 
                 <p class="login-text">
                     Already have an account? 
-                    <a routerLink="/login" class="login-link">Log in</a>
+                    <a href="/login" class="login-link">Log in</a>
                 </p>
             </form>
         </div>

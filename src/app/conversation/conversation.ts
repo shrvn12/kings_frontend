@@ -53,11 +53,12 @@ export class Conversation {
   }
 
   sendMessage() {
+    if (this.message.trim() === '') { return; }
     let msg = {
       "conversationId": `${this.route.snapshot.paramMap.get('id')}`,
       "clientMessageId": crypto.randomUUID(),
       "senderId": this.user._id,
-      "text": this.message,
+      "text": this.message.trim(),
       "createdAt": new Date(),
       "status": "sent",
       "type": "text",

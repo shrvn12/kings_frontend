@@ -9,7 +9,7 @@ import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, FormsModule, ToastModule, RouterLink],
+  imports: [CommonModule, FormsModule, ToastModule],
   providers: [MessageService],
   templateUrl: './login.html',
   styleUrl: './login.css'
@@ -40,8 +40,10 @@ export class Login {
 
   userName="";
   password="";
+  loggingIn : boolean = false;
   setUser(event: SubmitEvent){
     event.preventDefault();
+    this.loggingIn = true;
     fetch(`${environment.apiUrl}/auth/login`, {
       method: 'POST',
       headers: {
@@ -55,6 +57,7 @@ export class Login {
     }).then(async (res) => {
       let status = res.status;
       let response = await res.json();
+      this.loggingIn = false;
       console.log(response);
       console.log(document.cookie);
       this.toast(this.severity[status], 'Login', response.msg);
@@ -62,6 +65,7 @@ export class Login {
         this.router.navigate(['/home']);
       }
     }).catch((err) => {
+      this.loggingIn = false;
       console.log('error while login', err);
       this.toast('error', 'Login', 'Something went wrong');
     })

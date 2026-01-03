@@ -21,6 +21,7 @@ export class Signup {
   email: string = '';
   password: string = '';
   confirmPassword: string = '';
+  signingUp: boolean = false;
 
   severity: { [key: number]: string } = {
     200: 'success',         // OK
@@ -43,6 +44,7 @@ export class Signup {
 
   createUser(event: SubmitEvent) {
     event.preventDefault();
+    this.signingUp = true;
     fetch(`${environment.apiUrl}/auth/register`, {
       method: 'POST',
       headers: {
@@ -58,12 +60,14 @@ export class Signup {
     }).then(async (res) => {
       let status = res.status;
       let response = await res.json();
+      this.signingUp = false;
       console.log(response);
       this.toast(this.severity[status], 'Signup', response.msg);
       if (status == 200) {
         this.router.navigate(['/login']);
       }
     }).catch((err) => {
+      this.signingUp = false;
       console.log('error while singnup', err);
       this.toast('error', 'Signup', 'Something went wrong');
     })

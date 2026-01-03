@@ -42,13 +42,22 @@
                 >
             </div>
             
-            <button type="submit" class="login-btn">Login</button>
+            <button type="submit" class="login-btn" [disabled]="loggingIn">
+                <span class="btn-content">
+                    @if (loggingIn) {
+                        <span class="btn-spinner"></span>
+                        <span>Logging in...</span>
+                    } @else {
+                        <span>Login</span>
+                    }
+                </span>
+            </button>
         </form>
         
-        <p class="register-text">
+        <!-- <p class="register-text">
             Don't have an account? 
-            <a routerLink="/signup" class="register-link">Sign up now</a>
-        </p>
+            <a href="/register" class="register-link">Sign up now</a>
+        </p> -->
     </div>
 </body>
 </html>
