@@ -4,7 +4,7 @@ import { Router, RouterLink } from "@angular/router";
 import { ToastModule } from 'primeng/toast';
 import { Store } from '../store';
 import { MessageService } from 'primeng/api';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-signup',

@@ -26,7 +26,7 @@ import { Landing } from './landing/landing';
 import { Signup } from './signup/signup';
 
 import { Store } from './store'; // assuming this already exists
-import { environment } from '../environments/environment.development';
+import { environment } from '../environments/environment';
 
 // 🔐 Inline route condition function
 const authCheck = async (route: any, state: any) => {

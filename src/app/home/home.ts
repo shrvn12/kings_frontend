@@ -9,7 +9,7 @@ import { EventBusService } from '../event-bus';
 import { user } from '../models';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-home',

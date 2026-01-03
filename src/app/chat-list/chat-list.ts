@@ -8,7 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { user } from '../models';
 import { debounceTime, Subject } from 'rxjs';
 import { EventBusService } from '../event-bus';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-chat-list',

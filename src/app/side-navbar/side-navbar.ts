@@ -5,7 +5,7 @@ import { ToastModule } from 'primeng/toast';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { EventBusService } from '../event-bus';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-side-navbar',

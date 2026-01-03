@@ -6,7 +6,7 @@ import { Store } from '../store';
 import { EventBusService } from '../event-bus';
 import { Subscription } from 'rxjs';
 import { user } from '../models';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 
 interface message {
   _id?: string | object,
