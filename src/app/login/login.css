@@ -60,7 +60,7 @@ body::before {
     -webkit-text-fill-color: transparent;
     background-clip: text;
     letter-spacing: -1px;
-    line-height: 1;
+    line-height: 1.5;
     margin: 0;
 }
 

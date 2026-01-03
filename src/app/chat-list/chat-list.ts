@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { user } from '../models';
 import { debounceTime, Subject } from 'rxjs';
 import { EventBusService } from '../event-bus';
+import { environment } from '../../environments/environment.development';
 
 @Component({
   selector: 'app-chat-list',
@@ -61,10 +62,15 @@ export class ChatList {
     });
 
     this.eventbus.on('messageRecieved', (message: any) => {
+      let messageFound = false;
       for (let conv of this.conversations) {
         if (conv.conversationId === message.conversationId) {
           conv.lastMessage = message;
+          messageFound = true;
         }
+      }
+      if (!messageFound) {
+        this.listConv();
       }
     });
 
@@ -91,7 +97,7 @@ export class ChatList {
   conv(user: user) {
     if (user && '_id' in user && typeof user._id == 'string') {
       if (!user.conversationId) {
-        fetch(`https://kings-backend-a0ez.onrender.com/conv/create`, {
+        fetch(`${environment.apiUrl}/conv/create`, {
           method: 'POST',
           credentials: 'include',
           headers: {
@@ -105,6 +111,8 @@ export class ChatList {
             user.conversationId = response.conversation._id;
             await this.listConv();
             this.router.navigate([`/home/conv/${user.conversationId}`]);
+            this.searchQuery = "";
+            this.searchResults = [];
           } else {
             console.error('Error creating conversation:', response);
           }
@@ -120,7 +128,7 @@ export class ChatList {
 
   async listConv() {
     this.Store.setLoadingChatList(true);
-    await fetch('https://kings-backend-a0ez.onrender.com/conv/list', {
+    await fetch(`${environment.apiUrl}/conv/list`, {
       credentials: 'include'
     }).then(async (res) => {
       let response = await res.json();
@@ -147,7 +155,7 @@ export class ChatList {
       return;
     }
 
-    fetch(`https://kings-backend-a0ez.onrender.com/user/search?userName=${query}`, {
+    fetch(`${environment.apiUrl}/user/search?userName=${query}`, {
       credentials: 'include'
     }).then(async (res) => {
       let response = await res.json();

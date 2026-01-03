@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { environment } from '../../environments/environment.development';
 
 @Component({
   selector: 'app-login',
@@ -41,7 +42,7 @@ export class Login {
   password="";
   setUser(event: SubmitEvent){
     event.preventDefault();
-    fetch('https://kings-backend-a0ez.onrender.com/auth/login', {
+    fetch(`${environment.apiUrl}/auth/login`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json'

@@ -9,6 +9,7 @@ import { EventBusService } from '../event-bus';
 import { user } from '../models';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { environment } from '../../environments/environment.development';
 
 @Component({
   selector: 'app-home',
@@ -33,7 +34,7 @@ export class Home {
 
   ngOnInit(){
 
-    fetch('https://kings-backend-a0ez.onrender.com/auth/userInfo', {
+    fetch(`${environment.apiUrl}/auth/userInfo`, {
       method: "GET",
       credentials: 'include'
     }).then(async (res) => {
@@ -54,7 +55,8 @@ export class Home {
       this.loadingChatList = loading;
     });
 
-    this.socket = io('https://kings-backend-a0ez.onrender.com/', {
+    // this.socket = io('https://kings-backend-a0ez.onrender.com/', {
+    this.socket = io(environment.apiUrl, {
       withCredentials: true,
     });
 
@@ -98,6 +100,14 @@ export class Home {
     this.eventbus.on('markRead', (conversationId: string) => {
       // console.log('emitting markRead for conversationId', conversationId);
          this.socket.emit('mark-read', { conversationId }); 
+    });
+
+    this.eventbus.on('disconnectSocket', () => {
+      if (this.socket && this.socket.connected) {
+        this.socket.removeAllListeners(); // ✅ prevent memory leaks
+        this.socket.disconnect();
+        console.log('Socket disconnected via eventbus');
+      }
     });
 
     this.subscriptions.add(privateMessage);
@@ -144,7 +154,7 @@ export class Home {
   }
 
   async findUserById(id: string){
-    return await fetch(`https://kings-backend-a0ez.onrender.com/user/${id}`, {
+    return await fetch(`${environment.apiUrl}/user/${id}`, {
       credentials: 'include'
     }).then(async (res) => {
       let response = await res.json();

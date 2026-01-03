@@ -26,6 +26,7 @@ import { Landing } from './landing/landing';
 import { Signup } from './signup/signup';
 
 import { Store } from './store'; // assuming this already exists
+import { environment } from '../environments/environment.development';
 
 // 🔐 Inline route condition function
 const authCheck = async (route: any, state: any) => {
@@ -43,7 +44,7 @@ const authCheck = async (route: any, state: any) => {
 
   // 🔁 Fetch user info once
   try {
-    const res = await fetch('https://kings-backend-a0ez.onrender.com/auth/userInfo', {
+    const res = await fetch(`${environment.apiUrl}/auth/userInfo`, {
       method: 'GET',
       credentials: 'include'
     });

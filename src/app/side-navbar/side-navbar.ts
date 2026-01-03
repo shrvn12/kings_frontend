@@ -4,6 +4,8 @@ import { user } from '../models';
 import { ToastModule } from 'primeng/toast';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { EventBusService } from '../event-bus';
+import { environment } from '../../environments/environment.development';
 
 @Component({
   selector: 'app-side-navbar',
@@ -14,7 +16,7 @@ import { MessageService } from 'primeng/api';
 })
 export class SideNavbar {
   private router = inject(Router)
-  constructor(private Store: Store, private messageService: MessageService){}
+  constructor(private Store: Store, private messageService: MessageService, private eventbus: EventBusService){}
   user: user = {};
   showLogoutModal: boolean = false;
 
@@ -44,11 +46,12 @@ export class SideNavbar {
   }
 
   logout() {
-    fetch('https://kings-backend-a0ez.onrender.com/auth/logout', {
+    fetch(`${environment.apiUrl}/auth/logout`, {
       method: 'POST',
       credentials: 'include'
     }).then(async (res) => {
       let status = res.status;
+      this.eventbus.emit('disconnectSocket', null);
       this.toast(this.severity[status], 'Logout', 'You have been logged out successfully.');
       if (status === 200) {
         this.showLogoutModal = false;

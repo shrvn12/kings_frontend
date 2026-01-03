@@ -6,6 +6,7 @@ import { Store } from '../store';
 import { EventBusService } from '../event-bus';
 import { Subscription } from 'rxjs';
 import { user } from '../models';
+import { environment } from '../../environments/environment.development';
 
 interface message {
   _id?: string | object,
@@ -150,7 +151,7 @@ export class Conversation {
   }
 
   getMessages() {
-    fetch(`https://kings-backend-a0ez.onrender.com/message/conversation/${this.route.snapshot.paramMap.get('id')}`, {
+    fetch(`${environment.apiUrl}/message/conversation/${this.route.snapshot.paramMap.get('id')}`, {
       credentials: 'include'
     }).then(async (res) => {
       let response = await res.json();

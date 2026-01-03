@@ -4,6 +4,7 @@ import { Router, RouterLink } from "@angular/router";
 import { ToastModule } from 'primeng/toast';
 import { Store } from '../store';
 import { MessageService } from 'primeng/api';
+import { environment } from '../../environments/environment.development';
 
 @Component({
   selector: 'app-signup',
@@ -42,7 +43,7 @@ export class Signup {
 
   createUser(event: SubmitEvent) {
     event.preventDefault();
-    fetch('https://kings-backend-a0ez.onrender.com/auth/register', {
+    fetch(`${environment.apiUrl}/auth/register`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json'
@@ -70,7 +71,7 @@ export class Signup {
 
   setUser(event: SubmitEvent) {
     event.preventDefault();
-    fetch('https://kings-backend-a0ez.onrender.com/auth/login', {
+    fetch(`${environment.apiUrl}/auth/login`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json'
