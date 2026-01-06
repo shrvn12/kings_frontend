@@ -100,6 +100,11 @@ export class Signup {
     })
   }
 
+  onUserNameInput() {
+    this.userName = this.userName.replace(/\s+/g, '');
+  }
+
+
   toast(severity: string, summary: string, detail: string) {
     this.messageService.add({ severity, summary, detail, life: 3000 });
   }

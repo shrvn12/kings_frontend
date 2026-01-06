@@ -52,7 +52,7 @@
                             type="text" 
                             id="fullname" 
                             class="input-field" 
-                            placeholder="John Doe" 
+                            placeholder="" 
                             required
                         >
                     </div>
@@ -65,8 +65,10 @@
                             type="text" 
                             id="username" 
                             class="input-field" 
-                            placeholder="johndoe" 
+                            placeholder="spaces not allowed" 
                             required
+                            (keydown.space)="$event.preventDefault()"
+                            (input)="onUserNameInput()"
                         >
                     </div>
 
@@ -78,7 +80,7 @@
                             type="email" 
                             id="email" 
                             class="input-field" 
-                            placeholder="john@example.com" 
+                            placeholder="" 
                             required
                         >
                     </div>
