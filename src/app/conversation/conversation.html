@@ -71,14 +71,14 @@
     <!-- Message Input -->
     <div class="message-input-container">
         <div class="input-wrapper">
-            <input 
-                [(ngModel)]="message" 
-                (keyup.enter)="sendMessage()"
-                placeholder="Type a message..." 
-                class="message-input"
-                type="text" 
-                pInputText 
-            />
+        <textarea 
+            [(ngModel)]="message" 
+            (keydown.enter)="$event.preventDefault(); sendMessage()" 
+            placeholder="Type a message..." 
+            class="message-input"
+            pInputTextarea 
+            autoResize="true">
+        </textarea>
         </div>
         <button class="send-button" (click)="sendMessage()" title="Send message">
             <i class="pi pi-send send-icon"></i>
