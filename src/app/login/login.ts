@@ -50,7 +50,7 @@ export class Login {
         'content-type': 'application/json'
       },
       body: JSON.stringify({
-        userName: this.userName,
+        userName: this.userName.toLocaleLowerCase(),
         password: this.password
       }),
       credentials: 'include'
