@@ -106,8 +106,26 @@
     font-weight: 500;
 }
 
+.msgContSent{
+    width: 100%;
+    /* border: 1px solid white; */
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+
+.msgContReceived{
+    width: 100%;
+    /* border: 1px solid white; */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
 /* Message Bubbles */
 .msg {
+    width: fit-content;
+    /* border: 1px solid green; */
     max-width: 65%;
     padding: 12px 14px;
     border-radius: 16px;
@@ -148,7 +166,6 @@
 
 /* Sent Messages */
 .sent {
-    align-self: flex-end;
     background: linear-gradient(135deg, #EDD4B1 0%, #ddc5a8 100%);
     border-radius: 16px 16px 4px 16px;
 }
@@ -163,7 +180,6 @@
 
 /* Received Messages */
 .received {
-    align-self: flex-start;
     background: #2a2a2a;
     border-radius: 16px 16px 16px 4px;
 }
@@ -314,4 +330,10 @@
     .message-input-container {
         padding: 0 16px;
     }
+}
+
+.copyIcon {
+    margin: 1vw;
+    cursor: pointer;
+    scale: 0.9;
 }

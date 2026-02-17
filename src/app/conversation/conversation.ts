@@ -7,6 +7,8 @@ import { EventBusService } from '../event-bus';
 import { Subscription } from 'rxjs';
 import { user } from '../models';
 import { environment } from '../../environments/environment';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 interface message {
   _id?: string | object,
@@ -23,7 +25,8 @@ interface message {
 
 @Component({
   selector: 'app-conversation',
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, ToastModule],
+  providers: [MessageService],
   templateUrl: './conversation.html',
   styleUrl: './conversation.css'
 })
@@ -33,7 +36,8 @@ export class Conversation {
   private subscriptions = new Subscription();
 
   constructor(private Store: Store,
-    private eventbus: EventBusService
+    private eventbus: EventBusService,
+    private messageService: MessageService
   ) { }
   @ViewChild('chatContainer') chatContainer!: ElementRef<HTMLDivElement>;
   message = '';
@@ -42,6 +46,7 @@ export class Conversation {
   recipientDetails: user = {};
   messages: message[] = [];
   loadingConversation: boolean = false;
+  icon = 'pi pi-clone copyIcon'
 
 
   ngAfterViewInit() {
@@ -68,6 +73,44 @@ export class Conversation {
     this.scrollToBottom();
     this.eventbus.emit('privateMessage', msg);
     this.message = '';
+  }
+
+  maxLength = 500; // Adjust this value as needed
+  expandedMessages = new Set<string>(); // Track expanded messages by ID
+
+  toggleExpand(message: any): void {
+      if (this.expandedMessages.has(message._id)) {
+          this.expandedMessages.delete(message._id);
+      } else {
+          this.expandedMessages.add(message._id);
+      }
+  }
+
+  isExpanded(message: any): boolean {
+      return this.expandedMessages.has(message._id);
+  }
+
+  copyMessage(text: string): void {
+      navigator.clipboard.writeText(text).then(() => {
+          // Optional: Show a toast notification
+          console.log('Message copied!');
+          this.icon = 'pi pi-check copyIcon';
+          this.toast('success', 'Copy!', 'Message copied to clipboard');
+      }).catch(err => {
+          console.error('Failed to copy message:', err);
+      });
+  }
+
+  showMessageActions(index: number) {
+    this.showMessageActionsIndex[index] = true;
+    this.icon = 'pi pi-clone copyIcon';
+
+  }
+
+  showMessageActionsIndex: { [key: number]: boolean } = {};
+
+  toggleMessageActions(index: number) {
+    this.showMessageActionsIndex[index] = !this.showMessageActionsIndex[index];
   }
 
   ngOnInit() {
@@ -178,5 +221,9 @@ export class Conversation {
     } catch (err) {
       console.error('Scroll error:', err);
     }
+  }
+
+  toast(severity: string, summary: string, detail: string) {
+    this.messageService.add({ severity, summary, detail, life: 1500 });
   }
 }

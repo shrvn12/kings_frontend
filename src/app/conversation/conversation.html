@@ -1,4 +1,5 @@
 <div class="cont">
+    <p-toast></p-toast>
     <!-- Header -->
     <div class="conversation-header">
         <div class="header-user-info">
@@ -44,25 +45,39 @@
                         {{ message.createdAt | date:'mediumDate' }}
                     </div>
                 }
-
-                <!-- Message Bubble -->
-                <div
-                    class="msg"
-                    [ngClass]="message.senderId === user._id ? 'sent' : 'received'"
-                >
-                    <span class="text">{{ message.text }}</span>
-
-                    <span class="meta">
-                        <span class="timestamp">
-                            {{ message.createdAt | date:'shortTime' }}
+                <div [ngClass]="message.senderId === user._id ? 'msgContSent' : 'msgContReceived'" (mouseenter)="showMessageActions(i)" (mouseleave)="showMessageActionsIndex[i] = false">
+                    <!-- Message Bubble -->
+                    @if (showMessageActionsIndex[i] && message.senderId === user._id) {
+                        <i class="{{icon}}" (click)="copyMessage(message.text)" title="Copy message"></i>
+                    }
+                    <div class="msg" [ngClass]="message.senderId === user._id ? 'sent' : 'received'">
+                    
+                        <span class="text">
+                            {{ isExpanded(message) || message.text.length <= maxLength ? message.text : (message.text | slice:0:maxLength)
+                                + '...' }} 
                         </span>
-
-                        @if (message.senderId === user._id) {
+                         
+                        @if (message.text.length > maxLength) {
+                            <button class="read-more-btn" style="cursor: pointer;" (click)="toggleExpand(message)">
+                                {{ isExpanded(message) ? 'Show Less' : 'Read More' }}
+                            </button>
+                        }
+                
+                        <span class="meta">
+                            <span class="timestamp">
+                                {{ message.createdAt | date:'shortTime' }}
+                            </span>
+                
+                            @if (message.senderId === user._id) {
                             <span class="ticks">
                                 {{ message.status || 'sent' }}
                             </span>
-                        }
-                    </span>
+                            }
+                        </span>
+                    </div>
+                    @if (showMessageActionsIndex[i] && message.senderId != user._id) {
+                        <i class="{{icon}}" (click)="copyMessage(message.text)" title="Copy message"></i>
+                    }
                 </div>
             }
         }
