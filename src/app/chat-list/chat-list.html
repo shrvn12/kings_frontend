@@ -1,7 +1,7 @@
 <div class="cont">
     <!-- Header with Current User -->
     <div class="chat-header">
-        <img class="current-user-avatar" src="https://images.pexels.com/photos/2693814/pexels-photo-2693814.jpeg"
+        <img class="current-user-avatar" src="https://ui-avatars.com/api/?name={{user.name}}&background=random&size=128"
             alt="Your profile" />
         <div class="current-user-info">
             <p class="current-user-name">{{user.name}}</p>
@@ -23,7 +23,7 @@
         @for (conversation of conversations; track conversation.conversationId) {
         <div class="contact" [class.active]="selectedUserId === conversation.conversationId" (click)="conv(conversation.user)">
             <div class="avatar-container">
-                <img class="contact-avatar" src="https://images.pexels.com/photos/2693814/pexels-photo-2693814.jpeg"
+                <img class="contact-avatar" src="https://ui-avatars.com/api/?name={{conversation.user.name}}&background=random&size=128"
                     [alt]="conversation.user.name" />
                 <div class="online-indicator" [ngClass]="($any(onlineUsers))[conversation.user._id] || 'offline'"></div>
             </div>

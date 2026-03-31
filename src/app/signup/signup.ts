@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-signup',
-  imports: [FormsModule, RouterLink, ToastModule],
+  imports: [FormsModule, ToastModule],
   providers: [MessageService],
   templateUrl: './signup.html',
   styleUrl: './signup.css'

@@ -1,13 +1,13 @@
 <div class="cont">
     <p-toast [breakpoints]="{ '920px': { width: '50%', right: 'auto' } }" />
     <div class="profile-section">
-        <img class="profile-avatar" src="https://images.pexels.com/photos/2693814/pexels-photo-2693814.jpeg"
+        <img class="profile-avatar" src="https://ui-avatars.com/api/?name={{user.name}}&background=random&size=128"
             alt="profile" title="Your Profile" />
         <!-- <p class="profile-name">{{ user.name }}</p> -->
     </div>
 
     <div class="actions-section">
-        <i class="pi pi-cog nav-icon" title="Settings"></i>
+        <!-- <i class="pi pi-cog nav-icon" title="Settings"></i> -->
         <i class="pi pi-sign-out nav-icon" title="Logout" (click)="showLogoutModal = true"></i>
     </div>
 
