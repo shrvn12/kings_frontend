@@ -1,10 +1,45 @@
 <div class="cont">
     <!-- Header with Current User -->
     <div class="chat-header">
-        <img class="current-user-avatar" src="https://ui-avatars.com/api/?name={{user.name}}&background=random&size=128"
-            alt="Your profile" />
-        <div class="current-user-info">
-            <p class="current-user-name">{{user.name}}</p>
+        <div>
+            <img class="current-user-avatar" src="https://ui-avatars.com/api/?name={{user.name}}&background=random&size=128"
+                alt="Your profile" />
+            <div class="current-user-info">
+                <p class="current-user-name">{{user.name}}</p>
+            </div>
+        </div>
+        <div>
+            <div class="actions-section">
+                <!-- <i class="pi pi-cog nav-icon" title="Settings"></i> -->
+                <i class="pi pi-sign-out nav-icon" title="Logout" (click)="showLogoutModal = true"></i>
+            </div>
+
+            <!-- Logout Confirmation Modal -->
+            @if(showLogoutModal) {
+            <div class="logout-modal-overlay" (click)="showLogoutModal = false">
+                <div class="logout-modal" (click)="$event.stopPropagation()">
+                    <div class="modal-header">
+                        <div class="modal-icon">
+                            <i class="pi pi-sign-out"></i>
+                        </div>
+                        <h3 class="modal-title">Logout</h3>
+                    </div>
+
+                    <p class="modal-message">
+                        Are you sure you want to logout? You'll need to login again to access your conversations.
+                    </p>
+
+                    <div class="modal-actions">
+                        <button class="modal-btn modal-btn-cancel" (click)="showLogoutModal = false">
+                            Cancel
+                        </button>
+                        <button class="modal-btn modal-btn-confirm" (click)="logout()">
+                            Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+            }
         </div>
     </div>
 

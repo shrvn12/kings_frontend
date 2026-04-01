@@ -9,6 +9,7 @@ import { user } from '../models';
 import { debounceTime, Subject } from 'rxjs';
 import { EventBusService } from '../event-bus';
 import { environment } from '../../environments/environment';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-chat-list',
@@ -20,7 +21,7 @@ import { environment } from '../../environments/environment';
 export class ChatList {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
-  constructor(private Store: Store, private eventbus: EventBusService) { }
+  constructor(private Store: Store, private eventbus: EventBusService, private messageService: MessageService) { }
   private searchSubject = new Subject<string>();
   searchQuery = "";
   user: user = {};
@@ -30,6 +31,27 @@ export class ChatList {
   searchResults: user[] = [];
   selectedUserId: string | null = null;
   onlineUsers: Object = {};
+  showLogoutModal: boolean = false;
+
+  severity: {[key: number]: string} = {
+    200: 'success',         // OK
+    201: 'success',         // Created
+    202: 'success',         // Accepted
+    204: 'info',            // No Content
+
+    400: 'error',           // Bad Request
+    401: 'error',           // Unauthorized
+    403: 'error',           // Forbidden
+    404: 'error',           // Not Found
+    409: 'warning',         // Conflict
+    422: 'error',           // Unprocessable Entity
+
+    500: 'error',           // Internal Server Error
+    502: 'error',           // Bad Gateway
+    503: 'error',           // Service Unavailable
+    504: 'error'            // Gateway Timeout
+  };
+
   filterUsers() {
     const query = this.searchQuery.toLowerCase().trim();
     this.filteredUsers = this.users.filter(user => user.name?.toLowerCase().includes(query) || user.userName?.toLowerCase().includes(query));
@@ -181,5 +203,24 @@ export class ChatList {
     }).catch((error) => {
       console.log('error while searching user', error);
     })
+  }
+
+  logout() {
+    fetch(`${environment.apiUrl}/auth/logout`, {
+      method: 'POST',
+      credentials: 'include'
+    }).then(async (res) => {
+      let status = res.status;
+      this.eventbus.emit('disconnectSocket', null);
+      this.toast(this.severity[status], 'Logout', 'You have been logged out successfully.');
+      if (status === 200) {
+        this.showLogoutModal = false;
+        this.router.navigate(['/login']);
+      }
+    });
+  }
+
+  toast(severity: string, summary: string, detail: string) {
+    this.messageService.add({ severity, summary, detail, life: 3000 });
   }
 }
