@@ -32,6 +32,7 @@ export class ChatList {
   selectedUserId: string | null = null;
   onlineUsers: Object = {};
   showLogoutModal: boolean = false;
+  connectionStatus: 'connected' | 'reconnecting' | 'disconnected' = 'disconnected';
 
   severity: {[key: number]: string} = {
     200: 'success',         // OK
@@ -125,6 +126,10 @@ export class ChatList {
           }
         }
       }
+    });
+
+    this.eventbus.on('connectionStatus', (status: 'connected' | 'reconnecting' | 'disconnected') => {
+      this.connectionStatus = status;
     });
   }
 

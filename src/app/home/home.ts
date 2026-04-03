@@ -13,7 +13,7 @@ import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-home',
-  imports: [SideNavbar, ChatList, RouterOutlet, ToastModule],
+  imports: [ChatList, RouterOutlet, ToastModule],
   providers: [MessageService],
   templateUrl: './home.html',
   styleUrl: './home.css'
@@ -58,6 +58,8 @@ export class Home {
     // this.socket = io('https://kings-backend-a0ez.onrender.com/', {
     this.socket = io(environment.apiUrl, {
       withCredentials: true,
+      reconnectionAttempts: 20,
+      reconnectionDelay: 1000,
     });
 
     this.Store.user.subscribe((user: user) => {
@@ -86,6 +88,26 @@ export class Home {
       console.log('user-status recieved', {userId, state});
       this.eventbus.emit('userStatus', {userId, state});
     })
+
+    this.socket.on("connect", () => {
+      this.eventbus.emit('connectionStatus', 'connected');
+    });
+
+    this.socket.on("disconnect", () => {
+      this.eventbus.emit('connectionStatus', 'disconnected');
+    });
+
+    this.socket.io.on("reconnect_attempt", () => {
+      this.eventbus.emit('connectionStatus', 'reconnecting');
+    });
+
+    this.socket.io.on("reconnect", () => {
+      this.eventbus.emit('connectionStatus', 'connected');
+    });
+
+    this.socket.io.on("reconnect_failed", () => {
+      this.eventbus.emit('connectionStatus', 'disconnected');
+    });
 
     this.eventbus.on('userStatusRequest', (userId: string) => {
       // console.log('userStatusRequest recieved for userId', userId);
