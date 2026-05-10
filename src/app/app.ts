@@ -21,8 +21,7 @@ export class App {
     });
     this.eventBus.on('fetchUserInfoEnded', () => {
       console.log('Finished fetching user info.&&&&&&');
-      //retract the loading toast
-      // this.messageService.clear();
+      this.messageService.clear();
     });
   }
 
