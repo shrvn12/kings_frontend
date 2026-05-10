@@ -27,9 +27,11 @@ import { Signup } from './signup/signup';
 
 import { Store } from './store'; // assuming this already exists
 import { environment } from '../environments/environment';
+import { EventBusService } from '../app/event-bus';
 
 // 🔐 Inline route condition function
 const authCheck = async (route: any, state: any) => {
+  const eventBus = inject(EventBusService);
   const router = inject(Router);
   const store = inject(Store);
 
@@ -44,12 +46,14 @@ const authCheck = async (route: any, state: any) => {
 
   // 🔁 Fetch user info once
   try {
+    eventBus.emit('fetchUserInfoStarted');
     const res = await fetch(`${environment.apiUrl}/auth/userInfo`, {
       method: 'GET',
       credentials: 'include'
     });
 
     if (res.ok) {
+      eventBus.emit('fetchUserInfoEnded');
       const user = await res.json();
       store.setUser(user);
 
@@ -59,7 +63,10 @@ const authCheck = async (route: any, state: any) => {
       }
       return true;
     }
-  } catch (err) {}
+  } catch (err) {
+    console.error('Error fetching user info:', err);
+    eventBus.emit('fetchUserInfoEnded');
+  }
 
   // ❌ Not logged in
   if (state.url.startsWith('/home')) {
