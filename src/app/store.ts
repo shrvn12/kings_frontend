@@ -18,6 +18,7 @@ export class Store {
   userList = this.userListSource.asObservable();
   recipients = this.recipientsSource.asObservable();
   recipient = this.recipientSource.asObservable();
+  hasCheckedAuth = false;
 
   loadingChatList = this.loadingChatListSource.asObservable();
 

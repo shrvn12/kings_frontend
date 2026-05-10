@@ -1,22 +1,4 @@
-// import { Routes } from '@angular/router';
-// import { Login } from './login/login';
-// import { Home } from './home/home';
-// import { Conversation } from './conversation/conversation';
-// import { Landing } from './landing/landing';
-// import { Signup } from './signup/signup';
-
-// export const routes: Routes = [
-//     {path: 'home', component: Home,
-//         children:[
-//             {path: 'conv/:id', component: Conversation}
-//         ]
-//     },
-//     {path: 'login', component: Login},
-//     {path: 'signup', component: Signup},
-//     {path: '', component: Landing}
-// ];
-
-import { Routes, Router } from '@angular/router';
+import { Routes, Router, CanActivateFn } from '@angular/router';
 import { inject } from '@angular/core';
 
 import { Login } from './login/login';
@@ -25,57 +7,122 @@ import { Conversation } from './conversation/conversation';
 import { Landing } from './landing/landing';
 import { Signup } from './signup/signup';
 
-import { Store } from './store'; // assuming this already exists
+import { Store } from './store';
 import { environment } from '../environments/environment';
-import { EventBusService } from '../app/event-bus';
+import { EventBusService } from './event-bus';
 
-// 🔐 Inline route condition function
-const authCheck = async (route: any, state: any) => {
+const PUBLIC_ROUTES = ['/', '/login', '/signup'];
+
+// const authCheck: CanActivateFn = (_, state) => {
+//   const eventBus = inject(EventBusService);
+//   const router = inject(Router);
+//   const store = inject(Store);
+
+//   const isPublicRoute = PUBLIC_ROUTES.includes(state.url);
+//   const isProtectedRoute = state.url.startsWith('/home');
+
+//   const redirectToHome = () => router.createUrlTree(['/home']);
+//   const redirectToLogin = () => router.createUrlTree(['/login']);
+
+//   // Already authenticated
+//   console.log('Checking authentication for route:', store.user);
+//   if (store.user && "id" in store.user) {
+//     return Promise.resolve(
+//       isPublicRoute ? redirectToHome() : true
+//     );
+//   }
+
+//   eventBus.emit('fetchUserInfoStarted');
+
+//   return fetch(`${environment.apiUrl}/auth/userInfo`, {
+//     method: 'GET',
+//     credentials: 'include'
+//   })
+//     .then(async (res) => {
+//       if (!res.ok) {
+//         return isProtectedRoute
+//           ? redirectToLogin()
+//           : true;
+//       }
+
+//       const user = await res.json();
+
+//       store.setUser(user);
+
+//       return isPublicRoute
+//         ? redirectToHome()
+//         : true;
+//     })
+//     .catch((err) => {
+//       console.error('Error fetching user info:', err);
+
+//       return redirectToLogin();
+//     })
+//     .finally(() => {
+//       eventBus.emit('fetchUserInfoEnded');
+//     });
+// };
+
+const authCheck: CanActivateFn = (_, state) => {
   const eventBus = inject(EventBusService);
   const router = inject(Router);
   const store = inject(Store);
 
-  // ✅ If user already in store → trust it
-  if (store.currentUser && Object.keys(store.currentUser).length) {
-    if (['/login', '/signup', '/'].includes(state.url)) {
-      router.navigate(['/home']);
-      return false;
-    }
-    return true;
+  const isPublicRoute = PUBLIC_ROUTES.includes(state.url);
+  const isProtectedRoute = state.url.startsWith('/home');
+
+  const redirectToHome = () => router.createUrlTree(['/home']);
+  const redirectToLogin = () => router.createUrlTree(['/login']);
+
+  // Already authenticated
+  if ("id" in store.user) {
+    return Promise.resolve(
+      isPublicRoute ? redirectToHome() : true
+    );
   }
 
-  // 🔁 Fetch user info once
-  try {
-    eventBus.emit('fetchUserInfoStarted');
-    const res = await fetch(`${environment.apiUrl}/auth/userInfo`, {
-      method: 'GET',
-      credentials: 'include'
-    });
+  // Only show loading on first app boot
+  const shouldShowLoader = !store.hasCheckedAuth;
 
-    if (res.ok) {
-      eventBus.emit('fetchUserInfoEnded');
+  if (shouldShowLoader) {
+    eventBus.emit('fetchUserInfoStarted');
+  }
+
+  return fetch(`${environment.apiUrl}/auth/userInfo`, {
+    method: 'GET',
+    credentials: 'include'
+  })
+    .then(async (res) => {
+      store.hasCheckedAuth = true;
+
+      if (!res.ok) {
+        return isProtectedRoute
+          ? redirectToLogin()
+          : true;
+      }
+
       const user = await res.json();
+
       store.setUser(user);
 
-      if (['/login', '/signup', '/'].includes(state.url)) {
-        router.navigate(['/home']);
-        return false;
+      return isPublicRoute
+        ? redirectToHome()
+        : true;
+    })
+    .catch((err) => {
+      store.hasCheckedAuth = true;
+
+      console.error('Error fetching user info:', err);
+
+      return isProtectedRoute
+        ? redirectToLogin()
+        : true;
+    })
+    .finally(() => {
+      if (shouldShowLoader) {
+        eventBus.emit('fetchUserInfoEnded');
       }
-      return true;
-    }
-  } catch (err) {
-    console.error('Error fetching user info:', err);
-    eventBus.emit('fetchUserInfoEnded');
-  }
-
-  // ❌ Not logged in
-  if (state.url.startsWith('/home')) {
-    eventBus.emit('fetchUserInfoEnded');
-    router.navigate(['/login']);
-    return false;
-  }
-
-  return true;
+    });
 };
 
 export const routes: Routes = [
@@ -84,11 +131,25 @@ export const routes: Routes = [
     component: Home,
     canActivate: [authCheck],
     children: [
-      { path: 'conv/:id', component: Conversation }
+      {
+        path: 'conv/:id',
+        component: Conversation
+      }
     ]
   },
-  { path: 'login', component: Login, canActivate: [authCheck] },
-  { path: 'signup', component: Signup, canActivate: [authCheck] },
-  { path: '', component: Landing, canActivate: [authCheck] }
+  {
+    path: 'login',
+    component: Login,
+    canActivate: [authCheck]
+  },
+  {
+    path: 'signup',
+    component: Signup,
+    canActivate: [authCheck]
+  },
+  {
+    path: '',
+    component: Landing,
+    canActivate: [authCheck]
+  }
 ];
-
