@@ -70,6 +70,7 @@ const authCheck = async (route: any, state: any) => {
 
   // ❌ Not logged in
   if (state.url.startsWith('/home')) {
+    eventBus.emit('fetchUserInfoEnded');
     router.navigate(['/login']);
     return false;
   }
