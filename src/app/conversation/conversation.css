@@ -1,7 +1,26 @@
+  :host {
+      --bg: #0d0d0d;
+      --surface: #161616;
+      --border: #242424;
+      --text-dim: #3a3a3a;
+      --text-mute: #5a5a5a;
+      --text-soft: #888;
+      --accent: #e8e8e8;
+      --dot: #2a2a2a;
+  }
+
+    :host {
+        display: block;
+        position: relative;  /* ← establishes containing block for absolute children */
+        overflow: hidden;
+        width: 75vw;         /* your width */
+        height: 100%;
+    }
+
 .cont {
     width: 75vw;
     height: 100vh;
-    background: #0f0f0f;
+    /* background: #0f0f0f; */
     display: flex;
     flex-direction: column;
 }
@@ -15,7 +34,28 @@
     padding: 0 24px;
     background: #1a1a1a;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    z-index: 2;
 }
+
+  /* ── Dot-grid background ── */
+  .bg-grid {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, var(--dot) 1px, transparent 1px);
+      background-size: 28px 28px;
+      opacity: .55;
+      pointer-events: none;
+      z-index: 0;
+  }
+
+  /* ── Radial vignette so grid fades out at edges ── */
+  .bg-vignette {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 70% at 50% 50%, transparent 30%, var(--bg) 100%);
+      pointer-events: none;
+      z-index: 1;
+  }
 
 .header-user-info {
     display: flex;
@@ -104,6 +144,7 @@
     border-radius: 12px;
     align-self: center;
     font-weight: 500;
+    z-index: 2;
 }
 
 .msgContSent{
@@ -112,11 +153,13 @@
     display: flex;
     align-items: center;
     justify-content: right;
+    z-index: 2;
 }
 
 .msgContReceived{
     width: 100%;
     /* border: 1px solid white; */
+    z-index: 2;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -134,6 +177,7 @@
     position: relative;
     word-wrap: break-word;
     animation: messageSlide 0.3s ease;
+    z-index: 2;
 }
 
 @keyframes messageSlide {
@@ -202,6 +246,7 @@
     background: #1a1a1a;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     gap: 16px;
+    z-index: 2;
 }
 
 .input-wrapper {

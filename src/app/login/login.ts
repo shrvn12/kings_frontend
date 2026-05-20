@@ -72,6 +72,6 @@ export class Login {
   }
 
   toast(severity: string, summary: string, detail: string) {
-    this.messageService.add({ severity, summary, detail, life: 3000 });
+    this.messageService.add({ severity, summary, detail, life: 6000 });
   }
 }

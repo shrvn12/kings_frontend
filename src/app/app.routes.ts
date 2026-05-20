@@ -10,6 +10,7 @@ import { Signup } from './signup/signup';
 import { Store } from './store';
 import { environment } from '../environments/environment';
 import { EventBusService } from './event-bus';
+import { EmptyState } from './empty-state/empty-state';
 
 const PUBLIC_ROUTES = ['/', '/login', '/signup'];
 
@@ -134,6 +135,10 @@ export const routes: Routes = [
       {
         path: 'conv/:id',
         component: Conversation
+      },
+      {
+        path: '',
+        component: EmptyState
       }
     ]
   },

@@ -1,0 +1,200 @@
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300&display=swap');
+
+  *,
+  *::before,
+  *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+  }
+
+  :host {
+      --bg: #0d0d0d;
+      --surface: #161616;
+      --border: #242424;
+      --text-dim: #3a3a3a;
+      --text-mute: #5a5a5a;
+      --text-soft: #888;
+      --accent: #e8e8e8;
+      --dot: #2a2a2a;
+  }
+
+    :host {
+        display: block;
+        position: relative;  /* ← establishes containing block for absolute children */
+        overflow: hidden;
+        width: 75vw;         /* your width */
+        height: 100%;
+    }
+
+  body {
+      background: var(--bg);
+      height: 100vh;
+      /* width: 75vw; */
+      border: 1px solid white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'DM Sans', sans-serif;
+      overflow: hidden;
+  }
+
+  /* ── Dot-grid background ── */
+  .bg-grid {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, var(--dot) 1px, transparent 1px);
+      background-size: 28px 28px;
+      opacity: .55;
+      pointer-events: none;
+  }
+
+  /* ── Radial vignette so grid fades out at edges ── */
+  .bg-vignette {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 70% at 50% 50%, transparent 30%, var(--bg) 100%);
+      pointer-events: none;
+  }
+
+  /* ── Centre card ── */
+  .card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+      text-align: center;
+      padding: 0 24px;
+      animation: fadeUp .6s cubic-bezier(.22, 1, .36, 1) both;
+  }
+
+  /* ── Icon ring ── */
+  .icon-wrap {
+      position: relative;
+      width: 72px;
+      height: 72px;
+  }
+
+  .ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      animation: pulse 3s ease-in-out infinite;
+  }
+
+  .ring:nth-child(2) {
+      inset: -14px;
+      border-color: var(--dot);
+      animation-delay: .4s;
+      opacity: .6;
+  }
+
+  .ring:nth-child(3) {
+      inset: -28px;
+      border-color: var(--dot);
+      animation-delay: .8s;
+      opacity: .3;
+  }
+
+  .icon-inner {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  }
+
+  .icon-inner svg {
+      width: 28px;
+      height: 28px;
+      stroke: var(--text-mute);
+      stroke-width: 1.4;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+  }
+
+  /* ── Text ── */
+  .label {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 2vh;
+  }
+
+  h2 {
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: .01em;
+      color: var(--text-soft);
+  }
+
+  p {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--text-mute);
+      letter-spacing: .06em;
+      line-height: 1.7;
+  }
+
+  /* ── Subtle shortcut pill ── */
+  .hint {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      animation: fadeUp .6s .2s cubic-bezier(.22, 1, .36, 1) both;
+  }
+
+  .hint span {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      font-weight: 300;
+      color: var(--text-mute);
+      letter-spacing: .08em;
+  }
+
+  .hint kbd {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--text-soft);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 5px;
+  }
+
+  /* ── Animations ── */
+  @keyframes fadeUp {
+      from {
+          opacity: 0;
+          transform: translateY(12px);
+      }
+
+      to {
+          opacity: 1;
+          transform: translateY(0);
+      }
+  }
+
+  @keyframes pulse {
+
+      0%,
+      100% {
+          transform: scale(1);
+          opacity: 1;
+      }
+
+      50% {
+          transform: scale(1.06);
+          opacity: .5;
+      }
+  }
